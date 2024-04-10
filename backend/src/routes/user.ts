@@ -66,3 +66,29 @@ userRouter.post("/signin", async (c) => {
     c.json({ error: error });
   }
 });
+
+userRouter.get("/blogAuthor/:id", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  const id = Number(c.req.param("id"));
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        id,
+      },
+    });
+    if (!user) {
+      return c.json({
+        msg: "user doesn't exist",
+      });
+    }
+    console.log(user.name);
+
+    return c.json({ name: user.name });
+  } catch (error) {
+    c.status(403);
+    c.json({ error: error });
+  }
+});
