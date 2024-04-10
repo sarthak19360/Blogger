@@ -56,6 +56,7 @@ const Signin = () => {
             type="text"
             name="username"
             placeholder="Enter your username"
+            autoComplete="off"
             value={postInputs.username}
             onChange={handleChange}
           />

@@ -61,6 +61,7 @@ const Signup = () => {
             type="text"
             name="username"
             placeholder="Enter your username"
+            autoComplete="off"
             onChange={(e) => {
               setPostInputs({ ...postInputs, username: e.target.value });
             }}
@@ -76,6 +77,7 @@ const Signup = () => {
             type="text"
             name="name"
             placeholder="Enter your name"
+            autoComplete="off"
             onChange={(e) => {
               setPostInputs({ ...postInputs, name: e.target.value });
             }}
