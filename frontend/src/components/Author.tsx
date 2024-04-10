@@ -1,4 +1,4 @@
-const Author = ({ authorName }: any) => {
+const Author = ({ authorName }: { authorName: string | null }) => {
   return (
     <div className="w-4/12 ml-20 flex flex-col justify-center">
       <div className="font-semibold">{authorName}</div>

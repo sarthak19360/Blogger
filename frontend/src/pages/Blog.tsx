@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import Author from "../components/Author";
 import BlogComponent from "../components/BlogComponent";
+import { BACKEND_URL } from "../utils/constants";
 
 interface BlogType {
   id: number;
@@ -14,20 +15,9 @@ export const Blog = () => {
   const searchParams = useParams();
   const id = Number(searchParams.id);
   const [blog, setBlog] = useState<BlogType>();
-  const [authorName, setAuthorName] = useState<string>("");
-  const fetchAuthorName = async (id: number) => {
-    const resp = await fetch(
-      `http://localhost:8787/api/v1/user/blogAuthor/${id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const json = await resp.json();
-    setAuthorName(json.name);
-  };
+  const [searchAuthorParams] = useSearchParams();
+  const authorName = searchAuthorParams.get("authorName");
+
   const fetchBlog = async () => {
     const token = localStorage.getItem("token");
 
@@ -35,7 +25,7 @@ export const Blog = () => {
       console.error("Authorization token not found");
       return;
     }
-    const resp = await fetch(`http://localhost:8787/api/v1/blog/${id}`, {
+    const resp = await fetch(`${BACKEND_URL}/api/v1/blog/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +37,6 @@ export const Blog = () => {
   };
   useEffect(() => {
     fetchBlog();
-    fetchAuthorName(id);
   }, []);
 
   return (

@@ -7,7 +7,7 @@ import { BlogPost } from "./pages/BlogPost";
 
 const Approuter = createBrowserRouter([
   {
-    path: "/signup",
+    path: "/",
     element: <Signup />,
   },
   {

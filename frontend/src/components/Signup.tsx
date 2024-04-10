@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { signupType } from "@sarthak19360/common";
-// import { BACKEND_URL } from "../utils/constants";
+import { BACKEND_URL } from "../utils/constants";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [postInputs, setPostInputs] = useState<signupType>({
     username: "",
     name: "",
@@ -17,7 +19,7 @@ const Signup = () => {
       password: "",
     });
     try {
-      const resp = await fetch(`http://localhost:8787/api/v1/user/signup`, {
+      const resp = await fetch(`${BACKEND_URL}/api/v1/user/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,11 +27,13 @@ const Signup = () => {
         body: JSON.stringify(postInputs),
       });
       const json = await resp.json();
+
       if (!resp.ok) {
         throw new Error("Network response was not ok");
       }
       console.log("Data was successfully sent");
       localStorage.setItem("token", json.token);
+      navigate("/blogs");
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -39,7 +43,9 @@ const Signup = () => {
       <div className="text-3xl font-bold">Create an account</div>
       <div className="text-gray-400">
         <span>Already have an account?</span>
-        <span className="pl-2 underline">Login</span>
+        <Link to="/signin" className="pl-2 underline">
+          Login
+        </Link>
       </div>
       <form
         className="w-full flex flex-col items-center"

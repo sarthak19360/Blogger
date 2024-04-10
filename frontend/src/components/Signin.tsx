@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { signinType } from "@sarthak19360/common";
-// import { BACKEND_URL } from "../utils/constants";
+import { BACKEND_URL } from "../utils/constants";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
+  const navigate = useNavigate();
   const [postInputs, setPostInputs] = useState<signinType>({
     username: "",
     password: "",
@@ -15,7 +17,7 @@ const Signin = () => {
       password: "",
     });
     try {
-      const resp = await fetch(`http://localhost:8787/api/v1/user/signin`, {
+      const resp = await fetch(`${BACKEND_URL}/api/v1/user/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,6 +30,7 @@ const Signin = () => {
       }
       console.log("Data was successfully sent");
       localStorage.setItem("token", json.token);
+      navigate("/blogs");
     } catch (error) {
       console.log("Error: ", error);
     }
